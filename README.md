@@ -12,7 +12,7 @@
         final BeanWrapperFieldSetMapper<Ticket> fieldMapper = new BeanWrapperFieldSetMapper<>();
         fieldMapper.setTargetType(Ticket.class);
         final DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        @@ final Map<Class, PropertyEditor> customEditors = Stream.of( @@
+        !!!>>>> final Map<Class, PropertyEditor> customEditors = Stream.of( <<<<!!!
                 new AbstractMap.SimpleEntry<>(Date.class, new CustomDateEditor(df, false)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         fieldMapper.setCustomEditors(customEditors);
