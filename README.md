@@ -1,5 +1,29 @@
 # Spring-Boot + Spring-Batch + Spring Integration + ActiveMQ + Spring-Data + H2 + Actuator + Swagger
 
+```diff
+    public ItemStreamReader<Ticket> createReader(final Resource source) {
+
+        final FlatFileItemReader<Ticket> reader = new FlatFileItemReader<>();
+        reader.setResource(source);
+        final DefaultLineMapper<Ticket> lineMapper = new DefaultLineMapper<>();
+        final DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
+        lineTokenizer.setNames(TICKET_FILE_CSV_FIELDS);
+        lineMapper.setLineTokenizer(lineTokenizer);
+        final BeanWrapperFieldSetMapper<Ticket> fieldMapper = new BeanWrapperFieldSetMapper<>();
+        fieldMapper.setTargetType(Ticket.class);
+        final DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+        @@ final Map<Class, PropertyEditor> customEditors = Stream.of( @@
+                new AbstractMap.SimpleEntry<>(Date.class, new CustomDateEditor(df, false)))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        fieldMapper.setCustomEditors(customEditors);
+        lineMapper.setFieldSetMapper(fieldMapper);
+        reader.setLineMapper(lineMapper);
+        return reader;
+    }
+```
+
+Forked from https://github.com/create1st/spring-batch
+
 This is simply DEMO app to demonstrate Spring-Batch processing. It is monitoring C:\Temp directory for *.CVS files containing "Ticket" data and start processing when new file is detected.
 
 ## Ticket file format
